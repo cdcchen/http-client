@@ -246,4 +246,19 @@ class HttpClient extends CurlClient
         $this->_files = [];
         return $this;
     }
+
+    /**
+     * @param string $format
+     * @return HttpClient
+     */
+    public function setFormat(string $format): self
+    {
+        $this->_format = $format;
+        return $this;
+    }
+
+    public function getFormat(): string
+    {
+        return $this->_format;
+    }
 }
