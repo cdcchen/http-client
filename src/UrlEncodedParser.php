@@ -6,14 +6,14 @@
  * Time: 18:44
  */
 
-namespace cdcchen\curl;
+namespace cdcchen\http;
 
 use cdcchen\psr7\Response;
 
 
 /**
  * Class UrlEncodedParser
- * @package cdcchen\curl
+ * @package cdcchen\http
  */
 class UrlEncodedParser implements ParserInterface
 {

@@ -1,7 +1,7 @@
 <?php
 
-use cdcchen\curl\HttpClient;
-use cdcchen\curl\HttpResponse;
+use cdcchen\http\HttpClient;
+use cdcchen\http\HttpResponse;
 use PHPUnit\Framework\TestCase;
 
 final class ClientTraitTest extends TestCase

@@ -7,7 +7,7 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use cdcchen\curl\XmlParser;
+use cdcchen\http\XmlParser;
 use cdcchen\psr7\Response;
 
 class XmlParserTest extends TestCase

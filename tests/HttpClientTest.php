@@ -1,7 +1,7 @@
 <?php
 
-use cdcchen\curl\HttpClient;
-use cdcchen\curl\HttpResponse;
+use cdcchen\http\HttpClient;
+use cdcchen\http\HttpResponse;
 use cdcchen\psr7\Request;
 use PHPUnit\Framework\TestCase;
 

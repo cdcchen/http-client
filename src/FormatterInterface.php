@@ -6,14 +6,14 @@
  * Time: 15:43
  */
 
-namespace cdcchen\curl;
+namespace cdcchen\http;
 
 use Psr\Http\Message\RequestInterface;
 
 
 /**
  * Interface FormatterInterface
- * @package cdcchen\curl
+ * @package cdcchen\http
  */
 interface FormatterInterface
 {

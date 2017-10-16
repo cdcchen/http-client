@@ -7,7 +7,7 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use cdcchen\curl\UrlEncodedParser;
+use cdcchen\http\UrlEncodedParser;
 use cdcchen\psr7\Response;
 
 class UrlEncodedParserTest extends TestCase

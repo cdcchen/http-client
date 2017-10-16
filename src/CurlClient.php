@@ -6,12 +6,12 @@
  * Time: 下午5:58
  */
 
-namespace cdcchen\curl;
+namespace cdcchen\http;
 
 
 /**
  * Class Request
- * @package cdcchen\curl
+ * @package cdcchen\http
  */
 class CurlClient
 {

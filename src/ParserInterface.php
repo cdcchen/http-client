@@ -6,14 +6,14 @@
  * Time: 17:58
  */
 
-namespace cdcchen\curl;
+namespace cdcchen\http;
 
 use cdcchen\psr7\Response;
 
 
 /**
  * Interface ParserInterface
- * @package cdcchen\curl
+ * @package cdcchen\http
  */
 interface ParserInterface
 {

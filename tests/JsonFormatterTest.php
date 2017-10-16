@@ -6,8 +6,8 @@
  * Time: 16:18
  */
 
-use cdcchen\curl\HttpClient;
-use cdcchen\curl\JsonFormatter;
+use cdcchen\http\HttpClient;
+use cdcchen\http\JsonFormatter;
 use cdcchen\psr7\Request;
 use PHPUnit\Framework\TestCase;
 

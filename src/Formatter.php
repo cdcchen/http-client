@@ -6,7 +6,7 @@
  * Time: 10:57
  */
 
-namespace cdcchen\curl;
+namespace cdcchen\http;
 
 
 use InvalidArgumentException;
@@ -54,16 +54,16 @@ class Formatter
     public static function getFormatter(string $format)
     {
         static $defaultFormatters = [
-            Formatter::FORMAT_JSON => 'cdcchen\curl\JsonFormatter',
+            Formatter::FORMAT_JSON => 'cdcchen\http\JsonFormatter',
             Formatter::FORMAT_URLENCODED => [
-                'class' => 'cdcchen\curl\UrlEncodedFormatter',
+                'class' => 'cdcchen\http\UrlEncodedFormatter',
                 'encodingType' => PHP_QUERY_RFC1738
             ],
             Formatter::FORMAT_RAW_URLENCODED => [
-                'class' => 'cdcchen\curl\UrlEncodedFormatter',
+                'class' => 'cdcchen\http\UrlEncodedFormatter',
                 'encodingType' => PHP_QUERY_RFC3986
             ],
-            Formatter::FORMAT_XML => 'cdcchen\curl\XmlFormatter',
+            Formatter::FORMAT_XML => 'cdcchen\http\XmlFormatter',
         ];
 
         if (!isset($defaultFormatters[$format])) {

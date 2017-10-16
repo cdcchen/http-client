@@ -6,7 +6,7 @@
  * Time: 15:43
  */
 
-namespace cdcchen\curl;
+namespace cdcchen\http;
 
 use cdcchen\psr7\StreamHelper;
 use Psr\Http\Message\RequestInterface;
@@ -14,7 +14,7 @@ use Psr\Http\Message\RequestInterface;
 
 /**
  * Class JsonFormatter
- * @package cdcchen\curl
+ * @package cdcchen\http
  */
 class JsonFormatter implements FormatterInterface
 {
