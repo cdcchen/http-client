@@ -54,10 +54,8 @@ class HttpResponse extends Response
     public function getData()
     {
         if ($this->_data === null) {
-            $content = $this->getBody()->getContents();
-            if (!empty($content)) {
-                $data = $this->getParser()->parse($this);
-                $this->setData($data);
+            if ($this->getBody()->getSize() > 0) {
+                $this->_data = $this->getParser()->parse($this);
             }
         }
         return $this->_data;
