@@ -133,7 +133,7 @@ class HttpResponse extends Response
      */
     protected function defaultFormat(): ?string
     {
-        $format = $this->detectFormatByHeaders($this->getHeaders());
+        $format = $this->detectFormatByHeaders($this->getHeaderLine('content-type'));
         if ($format === null) {
             $format = $this->detectFormatByContent($this->getBody()->getContents());
         }
@@ -142,12 +142,11 @@ class HttpResponse extends Response
 
     /**
      * Detects format from headers.
-     * @param array $headers source headers.
+     * @param string $contentType source headers.
      * @return null|string format name, 'null' - if detection failed.
      */
-    protected function detectFormatByHeaders(array $headers): ?string
+    protected function detectFormatByHeaders(string $contentType): ?string
     {
-        $contentType = $headers['content-type'];
         if (!empty($contentType)) {
             if (stripos($contentType, 'json') !== false) {
                 return Formatter::FORMAT_JSON;
