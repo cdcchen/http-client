@@ -48,10 +48,10 @@ class Formatter
 
     /**
      * Returns HTTP message formatter instance for the specified format.
+     * @param string $format
      * @return FormatterInterface formatter instance.
-     * @throws InvalidArgumentException on invalid format name.
      */
-    public static function getFormatter(string $format)
+    public static function getFormatter(string $format): FormatterInterface
     {
         static $defaultFormatters = [
             Formatter::FORMAT_JSON => 'cdcchen\http\JsonFormatter',

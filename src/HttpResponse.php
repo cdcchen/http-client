@@ -54,8 +54,8 @@ class HttpResponse extends Response
     public function getData()
     {
         if ($this->_data === null) {
-            if ($this->getBody()->getSize() > 0) {
-                $this->_data = $this->getParser()->parse($this);
+            if (($parser = $this->getParser()) && $this->getBody()->getSize() > 0) {
+                $this->_data = $parser->parse($this);
             }
         }
         return $this->_data;
@@ -64,7 +64,7 @@ class HttpResponse extends Response
     /**
      * @return bool
      */
-    public function isOK()
+    public function isOK(): bool
     {
         return $this->getStatusCode() == 200;
     }
@@ -72,7 +72,7 @@ class HttpResponse extends Response
     /**
      * @return bool
      */
-    public function isSuccess()
+    public function isSuccess(): bool
     {
         $status = $this->getStatusCode();
         return $status >= 200 && $status < 300;
@@ -83,7 +83,7 @@ class HttpResponse extends Response
      * @param string $format body format name.
      * @return $this self reference.
      */
-    public function setFormat($format)
+    public function setFormat($format): self
     {
         $this->_format = $format;
         return $this;
@@ -93,7 +93,7 @@ class HttpResponse extends Response
      * Returns body format.
      * @return string body format name.
      */
-    public function getFormat()
+    public function getFormat(): ?string
     {
         if ($this->_format === null) {
             $this->_format = $this->defaultFormat();
@@ -106,7 +106,7 @@ class HttpResponse extends Response
      * @return ParserInterface parser instance.
      * @throws \InvalidArgumentException on invalid format name.
      */
-    private function getParser()
+    private function getParser(): ?ParserInterface
     {
         static $defaultParsers = [
             Formatter::FORMAT_JSON => 'cdcchen\http\JsonParser',
@@ -115,11 +115,11 @@ class HttpResponse extends Response
             Formatter::FORMAT_XML => 'cdcchen\http\XmlParser',
         ];
 
-        if (!isset($defaultParsers[$this->getFormat()])) {
-            throw new \InvalidArgumentException("Unrecognized format '{$this->getFormat()}'");
+        if (($format = $this->getFormat()) === null || !isset($defaultParsers[$format])) {
+            return null;
         }
-        $parser = $defaultParsers[$this->getFormat()];
 
+        $parser = $defaultParsers[$this->getFormat()];
         if (!is_object($parser)) {
             $parser = new $parser;
         }
@@ -131,7 +131,7 @@ class HttpResponse extends Response
      * Returns default format automatically detected from headers and content.
      * @return null|string format name, 'null' - if detection failed.
      */
-    protected function defaultFormat()
+    protected function defaultFormat(): ?string
     {
         $format = $this->detectFormatByHeaders($this->getHeaders());
         if ($format === null) {
@@ -145,7 +145,7 @@ class HttpResponse extends Response
      * @param array $headers source headers.
      * @return null|string format name, 'null' - if detection failed.
      */
-    protected function detectFormatByHeaders(array $headers)
+    protected function detectFormatByHeaders(array $headers): ?string
     {
         $contentType = $headers['content-type'];
         if (!empty($contentType)) {
@@ -167,7 +167,7 @@ class HttpResponse extends Response
      * @param string $content raw response content.
      * @return null|string format name, 'null' - if detection failed.
      */
-    protected function detectFormatByContent($content)
+    protected function detectFormatByContent($content): ?string
     {
         if (preg_match('/^\\{.*\\}$/is', $content)) {
             return Formatter::FORMAT_JSON;
