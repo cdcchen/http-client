@@ -36,7 +36,7 @@ class UrlEncodedFormatter implements FormatterInterface
     {
         $data = (array)$client->getData();
         $content = http_build_query($data, '', '&', $this->encodingType);
-        if (strcasecmp('get', $request->getMethod()) === 0) {
+        if ($request->getMethod() === 'GET') {
             if (!empty($content)) {
                 $uri = $request->getUri()->withQuery($content);
                 $request = $request->withUri($uri);

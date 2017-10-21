@@ -13,8 +13,8 @@ use PHPUnit\Framework\TestCase;
 
 class UrlEncodedFormatterTest extends TestCase
 {
-    const STR_RFC1738 = 'user%5Bname%5D=test-name&user%5Bage%5D=20&content=hi%2C+test+content.&like%5B0%5D=chen&like%5B1%5D=dong';
-    const STR_RFC3986 = 'user%5Bname%5D=test-name&user%5Bage%5D=20&content=hi%2C%20test%20content.&like%5B0%5D=chen&like%5B1%5D=dong';
+    const STR_RFC1738 = 'user%5Bname%5D=test-name&user%5Bage%5D=20&article.content=hi%2C+test+content.&im+like%5B0%5D=chen&im+like%5B1%5D=dong';
+    const STR_RFC3986 = 'user%5Bname%5D=test-name&user%5Bage%5D=20&article.content=hi%2C%20test%20content.&im%20like%5B0%5D=chen&im%20like%5B1%5D=dong';
 
     public function testFormatRFC1738MethodIsGet()
     {
@@ -23,8 +23,8 @@ class UrlEncodedFormatterTest extends TestCase
                 'name' => 'test-name',
                 'age' => 20,
             ],
-            'content' => 'hi, test content.',
-            'like' => ['chen', 'dong'],
+            'article.content' => 'hi, test content.',
+            'im like' => ['chen', 'dong'],
         ];
         $client = (new HttpClient())->setData($data);
         $formatter = new UrlEncodedFormatter();
@@ -52,8 +52,8 @@ class UrlEncodedFormatterTest extends TestCase
                 'name' => 'test-name',
                 'age' => 20,
             ],
-            'content' => 'hi, test content.',
-            'like' => ['chen', 'dong'],
+            'article.content' => 'hi, test content.',
+            'im like' => ['chen', 'dong'],
         ];
         $client = (new HttpClient())->setData($data);
         $formatter = new UrlEncodedFormatter();
@@ -92,8 +92,8 @@ class UrlEncodedFormatterTest extends TestCase
                 'name' => 'test-name',
                 'age' => 20,
             ],
-            'content' => 'hi, test content.',
-            'like' => ['chen', 'dong'],
+            'article.content' => 'hi, test content.',
+            'im like' => ['chen', 'dong'],
         ];
         $client = (new HttpClient())->setData($data);
         $formatter = new UrlEncodedFormatter();
@@ -122,8 +122,8 @@ class UrlEncodedFormatterTest extends TestCase
                 'name' => 'test-name',
                 'age' => 20,
             ],
-            'content' => 'hi, test content.',
-            'like' => ['chen', 'dong'],
+            'article.content' => 'hi, test content.',
+            'im like' => ['chen', 'dong'],
         ];
         $client = (new HttpClient())->setData($data);
         $formatter = new UrlEncodedFormatter();
