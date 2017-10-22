@@ -23,7 +23,7 @@ class XmlParser implements ParserInterface
      */
     public function parse(Response $response): array
     {
-        return $this->convertXmlToArray($response->getBody()->getContents());
+        return static::xmlToArray((string)$response->getBody());
     }
 
     /**
@@ -31,7 +31,7 @@ class XmlParser implements ParserInterface
      * @param string|\SimpleXMLElement $xml xml to process.
      * @return array XML array representation.
      */
-    protected function convertXmlToArray($xml)
+    public static function xmlToArray($xml)
     {
         if (!is_object($xml)) {
             $xml = simplexml_load_string($xml);
@@ -39,7 +39,7 @@ class XmlParser implements ParserInterface
         $result = (array)$xml;
         foreach ($result as $key => $value) {
             if (is_object($value)) {
-                $result[$key] = $this->convertXmlToArray($value);
+                $result[$key] = static::xmlToArray($value);
             }
         }
         return $result;
