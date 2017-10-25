@@ -9,6 +9,7 @@
 namespace cdcchen\http;
 
 use cdcchen\psr7\Response;
+use SimpleXMLElement;
 
 
 /**
@@ -34,7 +35,7 @@ class XmlParser implements ParserInterface
     public static function xmlToArray($xml)
     {
         if (!is_object($xml)) {
-            $xml = simplexml_load_string($xml);
+            $xml = simplexml_load_string($xml, SimpleXMLElement::class, LIBXML_NOCDATA | LIBXML_NOBLANKS);
         }
         $result = (array)$xml;
         foreach ($result as $key => $value) {
