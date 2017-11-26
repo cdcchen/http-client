@@ -6,6 +6,15 @@ use PHPUnit\Framework\TestCase;
 
 final class ClientTraitTest extends TestCase
 {
+    public function testStaticNoQueryParamsGetRequestShouldReturnPsr7HttpResponse()
+    {
+        $url = 'http://127.0.0.1:9090/tests/response.php';
+        $response = HttpClient::get($url);
+        $this->assertInstanceOf(HttpResponse::class, $response);
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
     public function testStaticGetRequestShouldReturnPsr7HttpResponse()
     {
         $url = 'http://127.0.0.1:9090/tests/response.php';

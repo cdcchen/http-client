@@ -38,15 +38,14 @@ trait ClientTrait
         $uri = new Uri($url);
 
         if (is_array($queryParams)) {
-            $queryString = http_build_query($queryParams);
-        } elseif (is_string($queryParams)) {
-            $queryString = $queryParams;
-        } else {
+            $queryParams = http_build_query($queryParams);
+        }
+        if ($queryParams && !is_string($queryParams)) {
             throw new \InvalidArgumentException('queryParams must be string or array.');
         }
 
-        if ($queryString) {
-            $uri->withQuery($queryString);
+        if ($queryParams) {
+            $uri->withQuery($queryParams);
         }
 
         return static::sendRequest('GET', $uri, null, $headers, $options);
