@@ -37,6 +37,7 @@ class HttpClient extends CurlClient
     /**
      * @param RequestInterface $request
      * @return HttpResponse|ResponseInterface
+     * @throws RequestException
      */
     public function request(RequestInterface $request): HttpResponse
     {
@@ -55,11 +56,10 @@ class HttpClient extends CurlClient
         } elseif ($this->_files) {
             $this->addOption(CURLOPT_POSTFIELDS, array_merge((array)$this->_data, $this->_files));
         }
-        if ($this->_data) {
-            $request = Formatter::getFormatter($this->_format)->format($this, $request);
-        }
         if ($request->getBody()->getSize() > 0) {
-            $this->addOption(CURLOPT_POSTFIELDS, $request->getBody()->getContents());
+            $this->addOption(CURLOPT_POSTFIELDS, (string)$request->getBody());
+        } elseif ($this->_data && $this->_format) {
+            $request = Formatter::getFormatter($this->_format)->format($this, $request);
         }
 
         $this->addOption(CURLOPT_HTTPHEADER, $this->getHeaderLines($request->getHeaders()));

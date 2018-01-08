@@ -16,7 +16,9 @@ namespace cdcchen\http;
 
 use cdcchen\psr7\HeaderCollection;
 use cdcchen\psr7\Request;
+use cdcchen\psr7\StreamHelper;
 use cdcchen\psr7\Uri;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Trait Client
@@ -32,6 +34,7 @@ trait ClientTrait
      * @param array $headers
      * @param array $options
      * @return HttpResponse
+     * @throws RequestException
      */
     public static function get(string $url, $queryParams = null, array $headers = [], array $options = []): HttpResponse
     {
@@ -59,6 +62,7 @@ trait ClientTrait
      * @param array $headers
      * @param array $options
      * @return HttpResponse
+     * @throws RequestException
      */
     public static function post(string $url, $data = null, array $headers = [], array $options = []): HttpResponse
     {
@@ -73,6 +77,7 @@ trait ClientTrait
      * @param array $headers
      * @param array $options
      * @return HttpResponse
+     * @throws RequestException
      */
     public static function put(string $url, $data = null, array $headers = [], array $options = []): HttpResponse
     {
@@ -87,6 +92,7 @@ trait ClientTrait
      * @param array $headers
      * @param array $options
      * @return HttpResponse
+     * @throws RequestException
      */
     public static function head(string $url, $data = null, array $headers = [], array $options = []): HttpResponse
     {
@@ -101,6 +107,7 @@ trait ClientTrait
      * @param array $headers
      * @param array $options
      * @return HttpResponse
+     * @throws RequestException
      */
     public static function patch(string $url, $data = null, array $headers = [], array $options = []): HttpResponse
     {
@@ -115,6 +122,7 @@ trait ClientTrait
      * @param array $headers
      * @param array $options
      * @return HttpResponse
+     * @throws RequestException
      */
     public static function options(string $url, $data = null, array $headers = [], array $options = []): HttpResponse
     {
@@ -129,6 +137,7 @@ trait ClientTrait
      * @param array $headers
      * @param array $options
      * @return HttpResponse
+     * @throws RequestException
      */
     public static function delete(string $url, $data = null, array $headers = [], array $options = []): HttpResponse
     {
@@ -139,11 +148,12 @@ trait ClientTrait
      * Http upload request shortcut
      *
      * @param string $url
-     * @param null|array|string $data
      * @param array $files [inputName => file] or [inputName => [file1, file2]]
+     * @param null|array|string $data
      * @param array $headers
      * @param array $options
      * @return HttpResponse
+     * @throws RequestException
      */
     public static function upload(
         string $url,
@@ -163,6 +173,7 @@ trait ClientTrait
      * @param array $options
      * @param \CURLFile[] $files [inputName => file] or [inputName => [file1, file2]]
      * @return HttpResponse
+     * @throws RequestException
      */
     private static function sendRequest(
         string $method,
@@ -174,8 +185,16 @@ trait ClientTrait
     ): HttpResponse {
         $request = new Request($method, $url, new HeaderCollection($headers));
         $client = (new HttpClient())->addOptions($options);
-        if ($body) {
-            $client->setData($body);
+
+        if ($body !== null) {
+            if (is_string($body)) {
+                $body = StreamHelper::createStream($body);
+            }
+            if ($body instanceof StreamInterface) {
+                $request = $request->withBody($body);
+            } else {
+                $client->setData($body);
+            }
         }
 
         foreach ($files as $inputName => $file) {
